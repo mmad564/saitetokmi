@@ -1,0 +1,117 @@
+/* ==== فرم مشخصات  ==== */
+
+body {
+  background: #0e0e0e;
+  color: #e0e0e0;
+  font-family: sans-serif;
+}
+
+header {
+  background: #111;
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #222;
+}
+
+.form-box {
+  max-width: 500px;
+  background: #1a1a1a;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+}
+
+.form-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #fff;
+}
+
+.form-box input,
+.form-box textarea,
+.form-box select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #0e0e0e;
+  color: #fff;
+}
+
+.form-box input::placeholder,
+.form-box textarea::placeholder {
+  color: #aaa;
+}
+
+/* جنسیت */
+.gender {
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+/* باکس جنسیت */
+.gender-box {
+  display: flex;
+  gap: 20px;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #0e0e0e;
+}
+
+/* متن و دایره radio */
+.gender-box label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.gender-box input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #fff; /* رنگ دایره تو حالت انتخاب شده */
+}
+
+
+/* دکمه */
+.form-box button {
+  width: 100%;
+  padding: 12px;
+  background: #111;
+  border: 1px solid #444;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-box button:hover {
+  background: #222;
+}
+
+/* فوتر */
+footer {
+  background: #111;
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  color: #777;
+}

@@ -1,0 +1,179 @@
+/* این تیکه برای ریسته.کصشرای خود کروم رو پاک میکنه */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #0e0e0e;
+  color: #e0e0e0;
+}
+
+/* اینجام هدر میگن. همون بخشی که توش bd motor نوشتم */
+header {
+  background: #111;
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #222;
+}
+
+.top-motors {
+  display: flex;
+  justify-content: center; /* وسط چین کردن تصویرا */
+  gap: 100px;               /* فاصله بین تصویرا */
+  margin: 30px 0;
+}
+
+.top-motors img {
+  width: 400px;    /* عرض تصویرا */
+  height: 240px;   /* ارتفاعشون */
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.top-motors img:hover {
+  transform: scale(1.05); /* افکت کوچیک بزرگ شدن روی هاور */
+}
+
+h2 {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.text {
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+/* سرچ */
+.search-box input {
+  width: 100%;
+  padding: 15px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: #fff;
+  margin-bottom: 25px;
+}
+
+/* انواع موتور نواری */
+.filter details {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.filter summary {
+  font-size: 18px;
+}
+
+.filter li {
+  list-style: none;
+  margin-top: 10px;
+  color: #ccc;
+}
+
+/* دسته بندی موتورا */
+.categories {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.category {
+  flex: 1;
+  min-width: 200px;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.category:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.05);
+}
+
+/* موتورا */
+.motors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+  gap: 25px;
+}
+
+.motor {
+  background: #1a1a1a;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.motor:hover {
+  transform: translateY(-5px);
+}
+
+.motor img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.info {
+  padding: 15px;
+}
+
+/* دکمه خرید */
+.buy-btn {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  padding: 10px;
+  background: #000;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.buy-btn:hover {
+  background: #222;
+}
+
+/* تصویرا */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 15px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.space {
+  margin-top: 50px;
+}
+
+/* فوتر */
+footer {
+  background: #111;
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  color: #777;
+}
