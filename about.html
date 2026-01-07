@@ -1,43 +1,19 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <title>ثبت مشخصات فردی | BD Motor</title>
-  <link rel="stylesheet" href="cssstyle.css">      <!-- CSS اصلی سایت -->
-  <link rel="stylesheet" href="csspersonal.css">   <!-- CSS فرم مشخصات -->
+    <meta charset="utf-8">
+    <title>kargah1</title>
 </head>
-
 <body>
 
-<header>BD MOTOR</header>
+<script type="text/javascript">
+    var a = window.confirm("محصولات سفارش داده شده از تعداد کل بیشتر است");
 
-<div class="form-box">
-  <h2>ثبت مشخصات فردی</h2>
-
-  <input type="text" placeholder="نام" required>
-  <input type="text" placeholder="نام خانوادگی" required>
-  <input type="text" placeholder="شماره ملی" required>
-  <input type="text" placeholder="کد پستی" required>
-  
-  <!-- جنسیت -->
-<div class="form-group">
-  <label>:جنسیت</label>
-  <div class="gender-box">
-    <label><input type="radio" name="gender" value="male"> مرد</label>
-    <label><input type="radio" name="gender" value="female"> زن</label>
-  </div>
-</div>
-
-
-  <textarea placeholder="آدرس" rows="4" required></textarea>
-  <input type="text" placeholder="تلفن تماس" required>
-  <input type="email" placeholder="ایمیل" required>
-
-  <button>ثبت اطلاعات</button>
-</div>
-
-<footer>
-   BD Motor
-</footer>
+    if (a == true)
+        window.alert("سفارش پذیرفته نمی‌شود");
+    else
+        window.alert("سفارش قابل قبول است");
+</script>
 
 </body>
 </html>
