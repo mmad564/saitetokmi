@@ -1,102 +1,275 @@
+
 <!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>BD Motor</title>
-
-  <!-- لینک CSS -->
-  <link rel="stylesheet" href="cssstyle.css">
+    <meta charset="UTF-8">
+    <title>Flappy Bird</title>
+    <style>
+        body {
+            margin: 0;
+            background: #70c5ce;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        canvas {
+            background: #4ec0ca;
+            border: 2px solid #333;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            text-shadow: 0 0 3px #000;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
-
-<header>BD MOTOR</header>
-
-
-<div class="top-motors">
-  <img src="5a6c04b55121ee51219e4787c7dd1a6f.jpg" alt="موتور 1">
-  <img src="77d1a9cacb387a45d1f7947430af94e9.jpg" alt="موتور 2">
-  <img src="large_fcb5cdc2-b405-43a2-9ef1-6ab7d3bf1210 (1).jpeg" alt="موتور 3">
+<div id="info">
+    کنترل‌ها: Space یا کلیک چپ = پرش | چپ/راست = حرکت افقی
 </div>
+<canvas id="game" width="400" height="600"></canvas>
 
-<div class="container">
+<script>
+// تنظیمات اولیه
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-  <h2>درباره BD Motor</h2>
-  <p class="text">
-    BD Motor مرجع معرفی انواع موتور سیکلت شهری، اسپرت، آفرود و سنگین با طراحی مدرن و حرفه‌ای
-  </p>
+const WIDTH = canvas.width;
+const HEIGHT = canvas.height;
 
-  <!-- جستو جو -->
-  <div class="search-box">
-    <input type="text" placeholder="جستجوی موتور...">
-  </div>
+// پرنده (خیلی کندتر و آسان‌تر)
+let bird = {
+    x: 80,
+    y: HEIGHT / 2,
+    radius: 15,
+    vy: 0,
+    vx: 0,
+    gravity: 0.20,
+    jump: -5.2,   // پرش متوسط و کنترل‌پذیر
+    maxSpeedX: 3
+};
 
-  <!-- دسته بندی نواری موتور -->
-  <div class="filter">
-    <details>
-      <summary>انتخاب نوع موتور</summary>
-      <ul>
-        <li>شهری</li>
-        <li>اسپرت</li>
-        <li>آفرود</li>
-        <li>سنگین</li>
-      </ul>
-    </details>
-  </div>
 
-  <!-- دسته بندی موتور -->
-  <div class="categories">
-    <div class="category">شهری</div>
-    <div class="category">اسپرت</div>
-    <div class="category">آفرود</div>
-    <div class="category">سنگین</div>
-  </div>
+// لوله‌ها (خیلی کندتر و فاصله بیشتر)
+let pipes = [];
+let pipeWidth = 60;
+let pipeGap = 170;       // فاصله بزرگ‌تر بین لوله‌ها
+let pipeSpeed = 1.2;     // سرعت خیلی کمتر
+let pipeInterval = 2300; // دیرتر ظاهر شدن لوله‌ها
+let lastPipeTime = 0;
 
-  <!-- موتورا -->
-  <h2>انواع موتور</h2>
-  <div class="motors">
+// امتیاز و وضعیت بازی
+let score = 0;
+let gameOver = false;
+let started = false;
 
-    <div class="motor">
-      <img src="c3e2b149fba373efa85ee61a98e9baee.jpg">
-      <div class="info">
-        rs200 در حد نو
-        <a class="buy-btn" href="about.html">افزودن به سبد خرید</a>
-      </div>
-    </div>
+// ساخت لوله جدید
+function createPipe() {
+    const minTop = 50;
+    const maxTop = HEIGHT - pipeGap - 50;
+    const topHeight = Math.floor(Math.random() * (maxTop - minTop)) + minTop;
 
-    <div class="motor">
-      <img src="nody-عکس-موتور-cb400-1630959510.jpg">
-      <div class="info">
-        cb1300 پلاک
-        <a class="buy-btn" href="about.html">افزودن به سبد خرید</a>
-      </div>
-    </div>
+    pipes.push({
+        x: WIDTH,
+        top: topHeight,
+        bottom: topHeight + pipeGap
+    });
+}
 
-    <div class="motor">
-      <img src="15891902874.jpg">
-      <div class="info">
-       بنلی 302s مدل 1403
-        <a class="buy-btn" href="about.html">افزودن به سبد خرید</a>
-      </div>
-    </div>
+// ریست بازی
+function resetGame() {
+    bird.x = 80;
+    bird.y = HEIGHT / 2;
+    bird.vy = 0;
+    bird.vx = 0;
+    pipes = [];
+    score = 0;
+    gameOver = false;
+    started = false;
+    lastPipeTime = 0;
+}
 
-  </div>
+// رسم پرنده
+function drawBird() {
+    ctx.save();
 
-  <!-- تصویرای اضافه -->
-  <h2 class="space">گالری تصاویر</h2>
-  <div class="gallery">
-    <img src="images (2).jpeg">
-    <img src="images (1).jpeg">
-    <img src="Screenshot 2025-12-16 102758.jpg">
-    <img src="images.jpeg">
-  </div>
-  
-</div>
+ctx.fillStyle = "#ffeb3b";
+    ctx.beginPath();
+    ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+    ctx.fill();
 
-<footer>
-   BD Motor
-</footer>
+    ctx.fillStyle = "#000";
+    ctx.beginPath();
+    ctx.arc(bird.x + 5, bird.y - 5, 3, 0, Math.PI * 2);
+    ctx.fill();
 
+    ctx.fillStyle = "#ff9800";
+    ctx.beginPath();
+    ctx.moveTo(bird.x + bird.radius, bird.y);
+    ctx.lineTo(bird.x + bird.radius + 8, bird.y - 4);
+    ctx.lineTo(bird.x + bird.radius + 8, bird.y + 4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+}
+
+// رسم لوله‌ها
+function drawPipes() {
+    ctx.fillStyle = "#388e3c";
+    pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+        ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, HEIGHT - pipe.bottom);
+    });
+}
+
+// به‌روزرسانی لوله‌ها
+function updatePipes(delta) {
+    pipes.forEach(pipe => {
+        pipe.x -= pipeSpeed;
+    });
+
+    pipes = pipes.filter(pipe => {
+        if (pipe.x + pipeWidth < 0) {
+            score++;
+            return false;
+        }
+        return true;
+    });
+
+    if (!lastPipeTime) lastPipeTime = performance.now();
+    if (performance.now() - lastPipeTime > pipeInterval) {
+        createPipe();
+        lastPipeTime = performance.now();
+    }
+}
+
+// چک کردن برخورد
+function checkCollision() {
+    if (bird.y + bird.radius >= HEIGHT || bird.y - bird.radius <= 0) {
+        gameOver = true;
+        return;
+    }
+
+    for (let pipe of pipes) {
+        if (bird.x + bird.radius > pipe.x &&
+            bird.x - bird.radius < pipe.x + pipeWidth) {
+            if (bird.y - bird.radius < pipe.top ||
+                bird.y + bird.radius > pipe.bottom) {
+                gameOver = true;
+                return;
+            }
+        }
+    }
+}
+
+// رسم متن‌ها
+function drawText() {
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("امتیاز مشتی : " + score, 10, 30);
+
+    if (!started && !gameOver) {
+        ctx.textAlign = "center";
+        ctx.font = "20px sans-serif";
+        ctx.fillText("برای شروع Space یا کلیک چپ بزن", WIDTH / 2, HEIGHT / 2);
+    }
+
+    if (gameOver) {
+        ctx.textAlign = "center";
+        ctx.font = "28px sans-serif";
+        ctx.fillText(" بازی تموم شد مشتی  !", WIDTH / 2, HEIGHT / 2 - 20);
+        ctx.font = "20px sans-serif";
+        ctx.fillText("برای شروع دوباره Space  یا کلیک چپ بزن", WIDTH / 2, HEIGHT / 2 + 20);
+    }
+}
+
+// حلقه اصلی بازی
+let lastTime = 0;
+function gameLoop(timestamp) {
+    const delta = timestamp - lastTime;
+    lastTime = timestamp;
+
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    ctx.fillStyle = "#ded895";
+
+ctx.fillRect(0, HEIGHT - 60, WIDTH, 60);
+
+    if (!gameOver && started) {
+        bird.vy += bird.gravity;
+        bird.y += bird.vy;
+
+        bird.x += bird.vx;
+        if (bird.vx > bird.maxSpeedX) bird.vx = bird.maxSpeedX;
+        if (bird.vx < -bird.maxSpeedX) bird.vx = -bird.maxSpeedX;
+
+        if (bird.x - bird.radius < 0) {
+            bird.x = bird.radius;
+            bird.vx = 0;
+        }
+        if (bird.x + bird.radius > WIDTH) {
+            bird.x = WIDTH - bird.radius;
+            bird.vx = 0;
+        }
+
+        updatePipes(delta);
+        checkCollision();
+    }
+
+    drawPipes();
+    drawBird();
+    drawText();
+
+    requestAnimationFrame(gameLoop);
+}
+
+// کنترل‌ها
+function flap() {
+    if (!started && !gameOver) {
+        started = true;
+        lastPipeTime = performance.now();
+        createPipe();
+    } else if (gameOver) {
+        resetGame();
+        return;
+    }
+    bird.vy = bird.jump;
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        flap();
+    }
+    if (e.code === "ArrowLeft") {
+        bird.vx = -bird.maxSpeedX;
+    }
+    if (e.code === "ArrowRight") {
+        bird.vx = bird.maxSpeedX;
+    }
+});
+
+document.addEventListener("keyup", (e) => {
+    if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
+        bird.vx = 0;
+    }
+});
+
+canvas.addEventListener("mousedown", (e) => {
+    if (e.button === 0) {
+        flap();
+    }
+});
+
+requestAnimationFrame(gameLoop);
+</script>
 </body>
 </html>
-
-
